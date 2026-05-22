@@ -1,6 +1,8 @@
 <html>
 	<head>
 		<title>Chamada AJAX</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 	</head>
 	<body>
 		<input id="t1" type="text" />
@@ -14,6 +16,7 @@
 					console.log("rajax Ok");
 				}
 				rajax.open("POST", "/exemplo_ajax/r.php", true);				
+
 				rajax.onreadystatechange = function(){
 					if(rajax.readyState === XMLHttpRequest.DONE && 
 					rajax.status === 200){
@@ -21,9 +24,9 @@
 						console.log(dados);
 
 						//exemplo 3
-						/*if(dados.parametro != 1000){
+						if(dados.parametro != 1000){
 							setTimeout(requisicao(), 1000);
-						}*/
+						}
 						document.getElementById("t1").value=dados;
 
 					}
@@ -34,6 +37,40 @@
 				rajax.send("parametro="+(++i));
 			}
 
+			function requisicao_jquery(){
+				$.ajax({
+    					url: "http://localhost/exemplo_ajax/r.php",
+    					type: "POST",
+    					dataType: "json",
+    					data: { parametro: "parametro" }
+				})
+				.done(function(resposta) {
+    					console.log("Sucesso! Dados recebidos:", resposta);
+    					// Atualize o DOM com os dados aqui
+				})
+				.fail(function(jqXHR, textStatus, errorThrown) {
+    					console.error("Erro na requisição: " + textStatus);
+				})
+				.always(function() {
+    					console.log("Requisição finalizada (com sucesso ou erro).");
+				});
+			}
+
+
+			function requisicao_fetch(){
+				fetch('http://localhost/exemplo_ajax/r.php', {
+  					method: 'POST',
+  					headers: {
+    					'Content-Type': 'application/x-www-form-urlencoded',
+  				},
+  				body: new URLSearchParams({
+    					'parametro': 'TextoDoTeste'
+  				})
+				})
+				.then(response => response.text())
+				.then(dados => console.log(dados))
+				.catch(erro => console.error(erro));
+			}
 		</script>	
 	</body>
 </html>

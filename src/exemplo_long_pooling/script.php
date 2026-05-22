@@ -3,7 +3,7 @@
 $atual = isset($_POST['parametro']) ? (int)$_POST['parametro'] : 100;
 
 // Simula a espera de 1 segundo (regra do negócio)
-sleep(1);
+sleep(5);
 
 // Decrementa o valor
 $atual--;
